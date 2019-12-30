@@ -1,0 +1,13 @@
+---Sudoku---
+
+* Create a simple Sudoku puzzle
+    - Put it an array in JS
+    - Display it in HTML
+    - Make it look pretty with CSS
+* Let the user be able to select any square on the board
+    - When selected the square should be highlighted
+    - Highlight the row and the column as well
+* The selected square should be a textbox that allows input from the user
+* A button to check progress
+    - Have a seperate array with the solution and compare the two
+    - If there is an error in the game, highlight the box red with an error
