@@ -2,13 +2,23 @@
 
 let table = "<table>"; //initialize a table tag
 let q = 1; // a counter for quadrants
+let puzzle = puzzlesAll[Math.floor(Math.random() * 2)];
 
+// window.onload = init;
+
+// function init(e) 
+// {
+//     let rand = Math.floor(Math.random() * 2);
+//     puzzle = puzzlesAll[0];
+//     console.log(puzzle);
+//     console.log(puzzle1);
+// }
 
 // c = row and r = column. I don't know how that happened
-for (let c = 0; c < puzzle1.length; c++) // a for loop for a 2D array - this is the rows
+for (let c = 0; c < puzzle.length; c++) // a for loop for a 2D array - this is the rows
 {
     table += "<tr id='row-" + (c+ 1) + "'>"; //set up the rows
-    for (let r = 0; r < puzzle1[0].length; r++) // this is the column
+    for (let r = 0; r < puzzle[0].length; r++) // this is the column
     {
         /* Quadrant
             1 2 3  |
@@ -30,12 +40,12 @@ for (let c = 0; c < puzzle1.length; c++) // a for loop for a 2D array - this is 
         else if (c < 9 && r < 9) q = 9;
 
         // add a table cell and give it an id with the row, column, quadrant, and number stored inside
-        table += "<td id='row-" + (c + 1) + "col-" + (r + 1) + "quad-" + q + "num-" + puzzle1[c][r] + "'>";
-        if (puzzle1[c][r] != 0) // 0 = empty cell
-            table += puzzle1[c][r] // this is going through a 2D array in another file and adding the numbers in if they are not 0
+        table += "<td id='row-" + (c + 1) + "col-" + (r + 1) + "quad-" + q + "num-" + puzzle[c][r] + "'>";
+        if (puzzle[c][r] != 0) // 0 = empty cell
+            table += puzzle[c][r] // this is going through a 2D array in another file and adding the numbers in if they are not 0
         else // if the cell is empty then add an input box
-            table += "<input class='empty' maxlength='1' id='row-" + (c + 1) + "col-" + (r + 1) + "quad-" + q + "'>"; 
-
+            table += "<input maxlength='1' id='row-" + (c + 1) + "col-" + (r + 1) + "quad-" + q + "'>"; 
+            //class='empty'
         table += "</td>"
     }
     table += "</tr>"
@@ -58,17 +68,12 @@ numButtons += "</tr></table>";
 
 document.getElementById("buttons").innerHTML = numButtons;
 
-/*
-window.onload = init;
-
-function init(e) {
-
-}
-*/
+// ----------------------------------------------------------------------------------------------
 
 // gather up all of the table cells
 var cell = document.getElementById("board").getElementsByTagName("td");
 var buttons = document.getElementById("buttons").getElementsByTagName("td");
+
 //assign the events and the procedures
 for (let i = 0; i < cell.length; i++) 
 {
@@ -79,7 +84,15 @@ for (let i = 0; i < buttons.length; i++)
 {
     buttons[i].onclick = showNums;
 }
-         
+
+var emptyCells = document.getElementsByTagName("input");
+for (let i = 0; i < emptyCells.length; i++)
+{ 
+    emptyCells[i].onkeyup = test;
+    emptyCells[i].onclick = highlight;
+    //emptyCells[i].onkeyup = highlight;
+}
+
 
 // create a variable that holds the style tag
 let cellStyle = document.getElementById("highlight");
@@ -104,11 +117,11 @@ function highlight(e) { //highlight the entire 3x3 block and the row and col
 
     
     // highlight colors
-    s += "td[id*='" + cellRow + "'], input[id*='" + cellRow + "'] {background-color: #E2E7ED;}";
-    s += "td[id*='" + cellCol + "'], input[id*='" + cellCol + "'] {background-color: #E2E7ED;}"
-    s += "td[id*='" + quadrant + "'], input[id*='" + quadrant + "'] {background-color: #E2E7ED;}";
-    s += "td#" + cellID + ", input#" +  cellID + "{background-color: #BBDEFB;}";
-    s += "td[id*='" + cellNum + "'] {background-color: #CBDBED;}";
+    s += "td[id*='" + cellRow + "'], input[id*='" + cellRow + "'] {background-color: #E2E7ED;}"; //highlight the row
+    s += "td[id*='" + cellCol + "'], input[id*='" + cellCol + "'] {background-color: #E2E7ED;}"  //highlight the column
+    s += "td[id*='" + quadrant + "'], input[id*='" + quadrant + "'] {background-color: #E2E7ED;}"; //highlight the quadrant
+    s += "td#" + cellID + ", input#" +  cellID + "{background-color: #BBDEFB;}"; //highluight the cell
+    s += "td[id*='" + cellNum + "'], input[id*='" + cellNum + "'] {background-color: #CBDBED;}"; //highlight all cells with same num
     cellStyle.innerHTML = s;
     console.log(cellRow + " " + cellCol + " " + quadrant + " " + cellNum);
 }
@@ -116,20 +129,17 @@ function highlight(e) { //highlight the entire 3x3 block and the row and col
 function showNums(e)
 {
     let cellID = e.target.id;
-    
-
     let x = "";
-    x += "td[id*='" + cellID + "'] {background-color: #CBDBED;}";
+    x += "td[id*='" + cellID + "'], input[id*='" +  cellID + "'] {background-color: #CBDBED;}";
     cellStyle.innerHTML = x;
     console.log(cellID);
 }
 
-/*
-function hover(e) // highlight the cell that the mouse is hovering over
+function test(e)
 {
     let cellID = e.target.id;
-    let x = "";
-    x += "td#" + cellID + ", input#" +  cellID + "{background-color: #BBDEFB;}";
-    cellStyle.innerHTML = x;
+    let selectedCell = document.getElementById(cellID);
+    let num = document.getElementById(cellID).value;
+    selectedCell.id = cellID + "num-" + num;
+    console.log(selectedCell.id);
 }
-*/

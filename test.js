@@ -1,0 +1,12 @@
+class Puzzle
+{
+    createPuzzle()
+    {
+
+    }
+
+    checkPuzzle()
+    {
+        
+    }
+}
