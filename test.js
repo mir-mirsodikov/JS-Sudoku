@@ -1,12 +1,9 @@
 class Puzzle
 {
-    createPuzzle()
-    {
-
-    }
+    //createPuzzle()
 
     checkPuzzle()
     {
-        
+        //let check;       
     }
 }

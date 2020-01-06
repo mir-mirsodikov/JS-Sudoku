@@ -60,6 +60,10 @@ input:focus {
     outline: none;
 }
 
+.wrong {
+    background-color: red;
+}
+
 td#row1 {
     background-color: white;
 }
