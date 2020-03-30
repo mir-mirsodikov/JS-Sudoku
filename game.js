@@ -1,19 +1,15 @@
 "use strict";
+/*
+  * Main .js file for the game
+  * All the game logistics are stored here
+*/
 
+//let gamePuzzle = new Puzzle; // initialize gamePuzzle object of the Puzzle class
 let table = "<table>"; //initialize a table tag
 let q = 1; // a counter for quadrants
-let puzzle = puzzle3;/*puzzlesAll[Math.floor(Math.random() * puzzlesAll.length)]*/
-let solution = solution3;
-
-// window.onload = init;
-
-// function init(e) 
-// {
-//     let rand = Math.floor(Math.random() * 2);
-//     puzzle = puzzlesAll[0];
-//     console.log(puzzle);
-//     console.log(puzzle1);
-// }
+let puzzle = []; //puzzlesAll[Math.floor(Math.random() * puzzlesAll.length)] // retrieve random puzzle from the array
+//let puzzle = gamePuzzle.createPuzzle();/*puzzlesAll[Math.floor(Math.random() * puzzlesAll.length)]*/
+//let solution = solution3;
 
 window.onload = init;
 
@@ -21,6 +17,7 @@ window.onload = init;
 
 function init() {
     // c = row and r = column. I don't know how that happened
+    puzzle = createPuzzle();
     for (let c = 0; c < puzzle.length; c++) // a for loop for a 2D array - this is the rows
     {
         table += "<tr id='row-" + (c + 1) + "'>"; //set up the rows
@@ -62,8 +59,11 @@ function init() {
     //add the table to the html file
     document.getElementById("board").innerHTML = table;
 
+
+    //create a table for the numbers on the bottom of the page
     let numButtons = "<table><tr>";
 
+    //populate the table with the numbers
     for (let i = 1; i < 10; i++) {
 
         numButtons += "<td id='num-" + i + "'>" + i + "</td>";
@@ -71,31 +71,34 @@ function init() {
 
     numButtons += "</tr></table>";
 
+    //add the table to the HTML file
     document.getElementById("buttons").innerHTML = numButtons;
 
     // ----------------------------------------------------------------------------------------------
 
     // gather up all of the table cells
-    var cell = document.getElementById("board").getElementsByTagName("td");
-    var buttons = document.getElementById("buttons").getElementsByTagName("td");
+    var cell = document.getElementById("board").getElementsByTagName("td"); // gather cells from the game
+    var buttons = document.getElementById("buttons").getElementsByTagName("td"); // gather cells from the table at the bottom of page
+    var emptyCells = document.getElementsByTagName("input");
 
-    //assign the events and the procedures
+    //highlight the cell, row, column, and qudrant when clicked
     for (let i = 0; i < cell.length; i++) {
         cell[i].onclick = highlight;
     }
 
+    //highlight all the same numbers when table at the bottom of page is used
     for (let i = 0; i < buttons.length; i++) {
         buttons[i].onclick = showNums;
     }
 
-    var emptyCells = document.getElementsByTagName("input");
-
+    //when a number has been input add it to the puzzle
     for (let i = 0; i < emptyCells.length; i++) {
         //emptyCells[i].onkeyup = changeInputID;
         emptyCells[i].onkeyup = addNumToPuzzle;
         emptyCells[i].onclick = highlight;
     }
 
+    //dispNums(puzzle);
 }
 
 //-------------------------------------------------------------------------------
@@ -106,12 +109,12 @@ let cellStyle = document.getElementById("highlight");
 //-------------------------------------------------------------------------------
 
 function highlight(e) { //highlight the entire 3x3 block and the row and col
-    /* 
+    /*
          1 2 3
        1 * * *
-       2 * * * 
-       3 * * *    
-    
+       2 * * *
+       3 * * *
+
     */
 
     // row-xcol-yquad-znum-c
@@ -167,12 +170,12 @@ function addNumToPuzzle(e) {
     puzzle[cellRow][cellCol] = parseInt(document.getElementById(cellID).value, 10);
     selectedCell.id = cellID + "num-" + num;
     highlight(e);
-    checkPuzzle(cellRow, cellCol, selectedCell);
+    //checkPuzzle(cellRow, cellCol, selectedCell);
     console.log(selectedCell.id);
     console.log(cellRow + " " + cellCol);
     console.log(puzzle);
 }
-
+/*
 function checkPuzzle(row, col, cell) {
     if (puzzle[row][col] == solution3[row][col])
     {
@@ -186,3 +189,13 @@ function checkPuzzle(row, col, cell) {
         console.log(cell.class);
     }
 }
+
+function dispNums(puzzle)
+{
+    for (let i = 0; i < puzzle[4].length; i++)
+        console.log(puzzle[4][i]);
+
+    for (let i = 0; i < puzzle.length; i++)
+        console.log(puzzle[i][0]);
+}
+*/
