@@ -1,13 +1,13 @@
 "use strict";
 /*
-  * Main .js file for the game
+  * Main js file for the game
   * All the game logistics are stored here
 */
 
 //let gamePuzzle = new Puzzle; // initialize gamePuzzle object of the Puzzle class
 let table = "<table>"; //initialize a table tag
 let q = 1; // a counter for quadrants
-let puzzle = []; //puzzlesAll[Math.floor(Math.random() * puzzlesAll.length)] // retrieve random puzzle from the array
+let puzzle; //puzzlesAll[Math.floor(Math.random() * puzzlesAll.length)] // retrieve random puzzle from the array
 //let puzzle = gamePuzzle.createPuzzle();/*puzzlesAll[Math.floor(Math.random() * puzzlesAll.length)]*/
 //let solution = solution3;
 
@@ -17,7 +17,8 @@ window.onload = init;
 
 function init() {
     // c = row and r = column. I don't know how that happened
-    puzzle = createPuzzle();
+    puzzle = sudoku.board_string_to_grid(sudoku.generate("easy"));
+    console.log(puzzle);
     for (let c = 0; c < puzzle.length; c++) // a for loop for a 2D array - this is the rows
     {
         table += "<tr id='row-" + (c + 1) + "'>"; //set up the rows
@@ -44,7 +45,7 @@ function init() {
 
             // add a table cell and give it an id with the row, column, quadrant, and number stored inside
             table += "<td id='row-" + (c + 1) + "col-" + (r + 1) + "quad-" + q + "num-" + puzzle[c][r] + "'>";
-            if (puzzle[c][r] != 0) // 0 = empty cell
+            if (puzzle[c][r] != ".") // 0 = empty cell
                 table += puzzle[c][r] // this is going through a 2D array in another file and adding the numbers in if they are not 0
             else // if the cell is empty then add an input box
                 table += "<input maxlength='1' id='row-" + (c + 1) + "col-" + (r + 1) + "quad-" + q + "'>";

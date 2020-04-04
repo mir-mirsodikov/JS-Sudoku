@@ -11,6 +11,3 @@
 * A button to check progress
     - Have a seperate array with the solution and compare the two
     - If there is an error in the game, highlight the box red with an error
-
-
-* If infinite loop then restart puzzle
