@@ -63,11 +63,7 @@ input:focus {
     background-color: red;
 }
 
-td#row1 {
-    background-color: white;
-}
-
-#board, input, #buttons {
+#board, input, #buttons, #difficulty {
     cursor: pointer;
 }
 
@@ -75,6 +71,15 @@ td#row1 {
     margin-top: 20px;
 }
 
-#buttons td {
+#buttons td, #difficulty td {
     border: 2px solid black;
+}
+
+#difficulty {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+#difficulty td {
+  width: 150px;
 }

@@ -5,7 +5,8 @@
         <title>Sudoku</title>
         <script src="game.js" defer></script>
         <script src="sudoku.js" defer></script>
-        <link href="style.css" rel="stylesheet" />
+        <!-- <link href="style.css" rel="stylesheet" /> -->
+        <link href="main.css" rel="stylesheet" />
 
         <style id="highlight">
 
@@ -13,7 +14,20 @@
     </head>
 
     <body>
-        <div id="board"></div>
+        <div id="difficulty">
+          <table>
+              <tr><td id="easy">Easy</td></tr>
+              <tr><td id="medium">Medium</td></tr>
+              <tr><td id="hard">Hard</td></tr>
+              <tr><td id="very-hard">Expert</td></tr>
+              <tr><td id="insane">Insane</td></tr>
+              <tr><td id="inhuman">Inhuman</td></tr>
+          </table>
+        </div>
+
+        <div id="board">
+
+        </div>
 
         <div id="buttons"></div>
     </body>
