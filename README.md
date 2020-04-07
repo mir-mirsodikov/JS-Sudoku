@@ -1,4 +1,4 @@
-#JavaScript Sudoku
+# JavaScript Sudoku
 
 A JavaScript Sodoku game.
 JS Sudoku library from [robatron.](https://github.com/robatron/sudoku.js/)
