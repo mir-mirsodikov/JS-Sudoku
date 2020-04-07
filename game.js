@@ -6,10 +6,13 @@
 
 let table = "<table>"; //initialize a table tag
 let q = 1; // a counter for quadrants
-let puzzle;
-var puzzleString;
-var difficulty;
-var solution;
+let puzzle; //2D puzzle array
+var puzzleString; //puzzle in string format
+var difficulty; //difficulty variable
+var solution; //2D array with solution to puzzle
+var seconds = 0; //seconds counter
+var minutes = 0; //minutes counter
+var time = "";   //time display string
 
 var difficultyButtons = document.getElementById("difficulty").getElementsByTagName("td"); //get all the difficulty buttons in one
 let cellStyle = document.getElementById("highlight"); // create a variable that holds the style tag
@@ -100,7 +103,21 @@ function init() {
         emptyCells[i].onclick = highlight;
     }
 
-    //dispNums(puzzle);
+    setInterval(stopwatch, 1000); //start the stopwatch
+}
+
+//-------------------------------------------------------------------------------
+
+//Stopwatch function to keep track of elapsed time
+function stopwatch() {
+  seconds++;
+  if (seconds == 60) {
+    minutes++;
+    seconds = 0;
+  }
+  if (seconds < 10) time = minutes + ":0" + seconds;
+  else time = minutes + ":" + seconds;
+  document.getElementById("timer").innerHTML = "<h1>" + time + "</h1>";
 }
 
 //-------------------------------------------------------------------------------

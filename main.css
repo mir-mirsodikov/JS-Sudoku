@@ -4,6 +4,28 @@ html, body, div {
     width: 100%;
 }
 
+/* Row and Columns */
+
+div.row {
+  margin-top: 5%;
+  clear: both;
+}
+
+div.row::after {
+  clear: both;
+  content: "";
+  display: table;
+}
+
+div[class^="col-"] {
+  float: left;
+}
+
+div.col-1-5 { width: 30%; }
+div.col-3-5 { width: 40%; }
+
+/* Tables and Cells */
+
 table, td {
     border: 1px solid black;
     padding: 0;
@@ -71,17 +93,11 @@ input:focus {
     border: 2px solid black;
 }
 
-#difficulty table {
-  float: left;
-  margin-left: 200px;
-  margin-top: 7%;
+#board table, #buttons table, #difficulty table {
+  margin: auto;
 }
 
-#board table, #buttons table {
-  margin-left: 30%;
-}
-
-#board table {
+#difficulty {
   margin-top: 5%;
 }
 
@@ -92,4 +108,12 @@ input:focus {
 
 td[id*="selected"] {
   background-color: #BBDEFB;
+}
+
+#timer {
+  margin: auto;
+}
+
+h1 {
+  text-align: center;
 }
