@@ -59,6 +59,7 @@ table tr:first-child td {
     border-top: 5px solid black;
 }
 
+/* Input text boxes */
 input {
     width: 100%;
     height: 100%;
@@ -77,11 +78,8 @@ input:focus {
     outline: none;
 }
 
-.wrong {
-    background-color: red;
-}
-
-#board, input, #buttons, #difficulty {
+/* Make the cursor a pointer when hovering over certain places */
+#board, input, #buttons, #difficulty, #new_game {
     cursor: pointer;
 }
 
@@ -116,4 +114,27 @@ td[id*="selected"] {
 
 h1 {
   text-align: center;
+}
+
+#new_game {
+  margin-top: 40%;
+}
+
+#new_game table {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#new_game td {
+  border: 2px solid black;
+  width: 200px;
+}
+
+.wrong {
+  background-color: #F7CED6 !important;
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
 }

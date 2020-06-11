@@ -13,9 +13,13 @@ var solution; //2D array with solution to puzzle
 var seconds = 0; //seconds counter
 var minutes = 0; //minutes counter
 var time = "";   //time display string
+var timeRep;
+var selectedNum = 0;
+var countMissing = 0;
 
 var difficultyButtons = document.getElementById("difficulty").getElementsByTagName("td"); //get all the difficulty buttons in one
 let cellStyle = document.getElementById("highlight"); // create a variable that holds the style tag
+document.getElementById("reload").onclick = newGame;
 
 //Assign the getDifficulty function to all the difficulty buttons
 for (let i = 0; i < difficultyButtons.length; i++) {
@@ -27,7 +31,6 @@ emptyDisplay();
 //-------------------------------------------------------------------------------
 
 function init() {
-    // puzzle = sudoku.board_string_to_grid(sudoku.generate("easy"));
     // c = row and r = column. I don't know how that happened
     table = "<table>";
     for (let c = 0; c < puzzle.length; c++) // a for loop for a 2D array - this is the rows
@@ -48,10 +51,15 @@ function init() {
 
             // add a table cell and give it an id with the row, column, quadrant, and number stored inside
             table += "<td id='row-" + (c + 1) + "col-" + (r + 1) + "quad-" + q + "num-" + puzzle[c][r] + "'>";
-            if (puzzle[c][r] != ".") // 0 = empty cell
-                table += puzzle[c][r] // this is going through a 2D array in another file and adding the numbers in if they are not 0
-            else // if the cell is empty then add an input box
+            if (puzzle[c][r] != ".") { // "." = empty cell
+                 // this is going through a 2D array in another file and adding the numbers in if they are not "."
+                table += puzzle[c][r]
+            }
+            else { // if the cell is empty then add an input box
                 table += "<input maxlength='1' id='row-" + (c + 1) + "col-" + (r + 1) + "quad-" + q + "'>";
+                //this is how many empty cells there are in the game board
+                countMissing++;
+            }
             //class='empty'
             table += "</td>"
         }
@@ -103,7 +111,9 @@ function init() {
         emptyCells[i].onclick = highlight;
     }
 
-    setInterval(stopwatch, 1000); //start the stopwatch
+    var arrowKeys = [37, 38, 39, 40];
+
+    timeRep = setInterval(stopwatch, 1000); //start the stopwatch
 }
 
 //-------------------------------------------------------------------------------
@@ -156,8 +166,8 @@ function emptyDisplay() {
 
 //-------------------------------------------------------------------------------
 
-function highlight(e) { //highlight the entire 3x3 block and the row and col
-
+//highlight the entire 3x3 block and the row and col
+function highlight(e) { 
     // row-xcol-yquad-znum-c
     // gather the id assigned to each table cell and then organize them in appropriate variables
     let cellID = e.target.id;
@@ -166,6 +176,12 @@ function highlight(e) { //highlight the entire 3x3 block and the row and col
     let quadrant = cellID.substring(10, 16);
     let cellNum = cellID.substring(16)
     let s = ""; //style variable
+
+    /*
+    if (selectedNum != 0) {
+        addNumToPuzzle2(e, selectedNum);
+    }
+    */
 
 
     // highlight colors
@@ -183,6 +199,7 @@ function highlight(e) { //highlight the entire 3x3 block and the row and col
 //Highlight all the numbers selected by the table on the bottom
 function showNums(e) {
     let cellID = e.target.id;
+    selectedNum = cellID.substring(4);
     let x = "";
     x += "td[id*='" + cellID + "'], input[id*='" + cellID + "'] {background-color: #CBDBED;}"; //highlight all the same numbers
     cellStyle.innerHTML = x;
@@ -215,17 +232,81 @@ function addNumToPuzzle(e) {
     }
     //if there is already a number there then change the number and id
     else {
-      num = String.fromCharCode(e.keyCode); //get number from the keyCode
-      selectedCell.value = num; //change the value of the cell
-      selectedCell.id = cellID.substring(0, cellID.length - 1) + num; //change the number in the id
+        num = String.fromCharCode(e.keyCode); //get number from the keyCode
+        selectedCell.value = num; //change the value of the cell
+        selectedCell.id = cellID.substring(0, cellID.length - 1) + num; //change the number in the id
+        selectedCell.className = "";
     }
-    puzzle[cellRow][cellCol] = num; // add the number to the array
+    
+    //when the 'delete' key gets pressed set it back to a blank value
+    if (e.keyCode == 8) {
+        puzzle[cellRow][cellCol] = ".";
+    }
+    else {
+        puzzle[cellRow][cellCol] = num; // add the number to the array
+    }
+    //console.log(puzzle);
+    
+    //as long as the value in row and col isn't blank then check the puzzle
+    if (puzzle[cellRow][cellCol] != ".") {
+        checkPuzzle(selectedCell, cellRow, cellCol);
+    }
     highlight(e); //highlight the board
 
     //checkPuzzle(cellRow, cellCol, selectedCell);
     //console.log(selectedCell.id);
     //console.log(cellRow + " " + cellCol);
     //console.log(puzzle);
+}
+
+function addNumToPuzzle2(e, num) {
+    let cellID = e.target.id; //get the cell id
+    let cellRow = parseInt(cellID.substring(4, 5), 10) - 1; //get the cell row
+    let cellCol = parseInt(cellID.substring(9, 10), 10) - 1; // get the cell column
+    let selectedCell = document.getElementById(cellID); //get the specific cell selected
+
+    //if the selected cell is empty then go ahead and input
+    if (puzzle[cellRow][cellCol] == ".") {
+      selectedCell.id = cellID + "num-" + num; //add the number to the id
+    }
+    //if there is already a number there then change the number and id
+    else {
+      selectedCell.value = num; //change the value of the cell
+      selectedCell.id = cellID.substring(0, cellID.length - 1) + num; //change the number in the id
+    }
+    puzzle[cellRow][cellCol] = num; // add the number to the array
+    checkPuzzle(selectedCell, cellRow, cellCol);
+    //highlight(e); //highlight the board
+}
+
+//-------------------------------------------------------------------------------
+
+//Start a new game
+function newGame() {
+    location.reload();
+}
+
+//-------------------------------------------------------------------------------
+
+//Check solution
+function checkPuzzle(cell, row, col) {
+    if (solution[row][col] === puzzle[row][col]) {
+        //console.log(true);
+        cell.className = "correct";
+        //console.log(cell.class);
+        //console.log(countMissing);
+        countMissing--;
+    }
+    else {
+        //console.log(false);
+        cell.className = "wrong";
+        //console.log(cell.class);
+    }
+
+    if (countMissing == 0) {
+        alert("Game Over");
+        clearInterval(timeRep);
+    }
 }
 
 /*
